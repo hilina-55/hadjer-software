@@ -1,0 +1,297 @@
+:root {
+    --bg-dark: #0f0c29;
+    --bg-mid: #302b63;
+    --bg-light: #24243e;
+    --accent-blue: #00d2ff;
+    --accent-purple: #928dab;
+    --text-main: #ffffff;
+    --text-soft: #b3b3b3;
+    --code-bg: #1e1e2e;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Tajawal', sans-serif;
+    background: linear-gradient(135deg, var(--bg-dark), var(--bg-mid), var(--bg-light));
+    color: var(--text-main);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* --- Header --- */
+.hero {
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: radial-gradient(circle at center, rgba(48, 43, 99, 0.4) 0%, transparent 70%);
+}
+.glowing-text {
+    font-family: 'Cinzel', serif;
+    font-size: 3.5rem;
+    font-weight: 700;
+    background: linear-gradient(to right, var(--accent-blue), #9d50bb);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 30px rgba(0, 210, 255, 0.3);
+    line-height: 1.4;
+    animation: fadeInDown 1.5s ease-out;
+}
+.subtitle {
+    font-size: 1.2rem;
+    color: var(--text-soft);
+    margin-top: 20px;
+    letter-spacing: 2px;
+    animation: fadeInUp 1.5s ease-out;
+}
+
+/* --- Sections --- */
+.section { padding: 80px 10%; text-align: center; }
+.section-title { font-size: 2.5rem; margin-bottom: 10px; color: var(--accent-blue); }
+.section-desc { color: var(--text-soft); margin-bottom: 40px; font-size: 1.1rem; }
+
+/* --- PDF Showcase (تعريف موحّد، بدون تكرار) --- */
+.pdf-showcase {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+.pdf-embed {
+    width: 100%;
+    height: 600px;
+    border-radius: 12px;
+    border: 2px solid rgba(0, 210, 255, 0.4);
+    background-color: #ffffff;
+}
+.download-btn {
+    display: inline-block;
+    padding: 14px 32px;
+    border-radius: 50px;
+    background: linear-gradient(135deg, var(--accent-blue), #9d50bb);
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.05rem;
+    box-shadow: 0 8px 20px rgba(0, 210, 255, 0.3);
+    transition: all 0.3s ease;
+}
+.download-btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(0, 210, 255, 0.5);
+    letter-spacing: 1px;
+}
+
+/* --- UML Grid --- */
+.uml-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+}
+.uml-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, opacity 0.6s ease;
+    /* الحالة الابتدائية لظهور تدريجي */
+    opacity: 0;
+    transform: translateY(30px);
+}
+.uml-card.visible { opacity: 1; transform: translateY(0); }
+.uml-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(146, 141, 171, 0.2);
+    border-color: var(--accent-purple);
+}
+.uml-title {
+    color: var(--accent-blue);
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+/* --- UML Images: بدون قص + خلفية بيضاء للمخططات --- */
+.uml-img {
+    width: 100%;
+    height: auto;
+    max-height: 320px;
+    object-fit: contain;
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 8px;
+    margin-bottom: 15px;
+    cursor: zoom-in;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.uml-img:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 25px rgba(0, 210, 255, 0.25);
+}
+.image-stack { display: flex; flex-direction: column; gap: 15px; margin-bottom: 15px; }
+.image-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px; }
+.image-grid .uml-img { margin-bottom: 0; max-height: 260px; }
+
+/* --- Code Reveal (القائمة المنسدلة) --- */
+.code-reveal {
+    text-align: right;
+    margin-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 10px;
+}
+.code-reveal summary {
+    cursor: pointer;
+    color: var(--accent-purple);
+    font-weight: bold;
+    font-size: 0.95rem;
+    padding: 8px;
+    border-radius: 5px;
+    transition: background 0.3s;
+    list-style: none;
+}
+.code-reveal summary::-webkit-details-marker { display: none; }
+.code-reveal summary:hover { background: rgba(255, 255, 255, 0.05); }
+.code-reveal summary::after { content: " ▼"; font-size: 0.8rem; }
+.code-reveal[open] summary::after { content: " ▲"; }
+.code-reveal pre {
+    background: var(--code-bg);
+    color: #a6accd;
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin-top: 10px;
+    border-left: 3px solid var(--accent-blue);
+    font-family: 'Fira Code', monospace;
+    font-size: 0.85rem;
+    direction: ltr;
+    text-align: left;
+}
+
+/* --- Lightbox Pro (Zoom & Pan) --- */
+.lightbox {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(10, 8, 25, 0.97);
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    animation: fadeIn 0.3s ease;
+}
+.lightbox-content {
+    max-width: 92%;
+    max-height: 92%;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 0 60px rgba(0, 210, 255, 0.35);
+    border: 2px solid var(--accent-purple);
+    cursor: grab;
+    transition: transform 0.15s ease-out;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+.lightbox-content.dragging { cursor: grabbing; transition: none; }
+.lb-toolbar {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    background: rgba(30, 27, 60, 0.85);
+    padding: 10px 18px;
+    border-radius: 40px;
+    border: 1px solid rgba(0, 210, 255, 0.3);
+    backdrop-filter: blur(10px);
+    z-index: 1001;
+}
+.lb-toolbar button {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.lb-toolbar button:hover {
+    background: var(--accent-blue);
+    color: #0f0c29;
+    border-color: var(--accent-blue);
+    transform: scale(1.1);
+}
+.lb-zoom-label {
+    color: var(--accent-blue);
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    min-width: 60px;
+    justify-content: center;
+    font-family: 'Fira Code', monospace;
+}
+.close-btn {
+    position: absolute;
+    top: 25px; right: 35px;
+    color: #fff;
+    font-size: 42px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s, transform 0.3s;
+    z-index: 1001;
+    line-height: 1;
+}
+.close-btn:hover { color: var(--accent-blue); transform: rotate(90deg); }
+.lb-hint {
+    position: absolute;
+    top: 25px; left: 35px;
+    color: var(--text-soft);
+    font-size: 0.9rem;
+    background: rgba(30, 27, 60, 0.6);
+    padding: 8px 16px;
+    border-radius: 20px;
+    z-index: 1001;
+}
+
+/* --- Footer --- */
+footer {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-soft);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 50px;
+}
+
+/* --- Animations --- */
+@keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .glowing-text { font-size: 2rem; }
+    .pdf-embed { height: 400px; }
+    .uml-grid { grid-template-columns: 1fr; }
+    .image-grid { grid-template-columns: 1fr; }
+    .lb-hint { display: none; }
+}

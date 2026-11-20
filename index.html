@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HADJER BOULENOUAR SPACE</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Tajawal:wght@300;400;700&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- قسم الترحيب -->
+    <header class="hero">
+        <div class="hero-content">
+            <h1 class="glowing-text">Hello, welcome in space of<br>HADJER BOULENOUAR</h1>
+            <p class="subtitle">The Creative Journey in Software Engineering and Application Design</p>
+        </div>
+    </header>
+
+    <!-- قسم اسكتشات اليد (ملف PDF واحد) -->
+    <section class="section" id="sketches">
+        <h2 class="section-title">Analysis and Hand-Drawn Design Sketches</h2>
+        <p class="section-desc">Complete sketch portfolio (6 pages). You can scroll through the pages or download the high-quality original file.</p>
+        <div class="pdf-showcase">
+            <embed src="images/sketches-all.pdf" type="application/pdf" class="pdf-embed" />
+            <a href="images/sketches-all.pdf" download="Hadjer_Sketches_Portfolio.pdf" class="download-btn">
+                ⬇ Download the original sketches file (PDF)
+            </a>
+        </div>
+    </section>
+
+    <!-- قسم مخططات UML -->
+    <section class="section" id="uml">
+        <h2 class="section-title">UML Diagrams</h2>
+        <p class="section-desc">The structural and behavioral models for SAGHIRI application</p>
+        <div class="uml-grid">
+
+            <!-- 1. Use Case (4 صور) -->
+            <div class="uml-card">
+                <h3 class="uml-title">Use Case Diagram</h3>
+                <div class="image-grid">
+                    <img src="images/usecase.jpg" alt="Use Case 1" class="uml-img" onclick="openLightbox(this)">
+                    <img src="images/usecase1.jpg" alt="Use Case 2" class="uml-img" onclick="openLightbox(this)">
+                    <img src="images/usecase2.jpg" alt="Use Case 3" class="uml-img" onclick="openLightbox(this)">
+                    <img src="images/usecase3.jpg" alt="Use Case 4" class="uml-img" onclick="openLightbox(this)">
+                </div>
+                <details class="code-reveal">
+                    <summary> Show Diagram Code</summary>
+                    <pre><code>@startuml SAGHIRI_UseCase_Full
+title SAGHIRI - Use Case Diagram
+left to right direction
+skinparam shadowing false
+skinparam actorStyle awesome
+skinparam usecase {
+  BackgroundColor #E8F5F3
+  BorderColor #1A535C
+  ArrowColor #1A535C
+}
+skinparam rectangle {
+  BackgroundColor #FFFFFF
+  BorderColor #2BAE9C
+}
+skinparam note {
+  BackgroundColor #FFF8E1
+  BorderColor #FFB347
+}
+
+actor "Parent" as Parent
+actor "ESP32\n(IoT Device)" as ESP32
+actor "Backend Server\n(Spring Boot)" as Backend
+actor "Cry Analysis\nService" as CryAI
+actor "Chatbot\nService" as ChatAI
+actor "Firebase" as FB
+
+rectangle "SAGHIRI Mobile Application" {
+
+  usecase "Create Account" as UC1
+  usecase "Log In" as UC2
+  usecase "Log Out" as UC3
+  usecase "Change Password" as UC4
+  usecase "Reset Password" as UC5
+
+  usecase "View Profile" as UC6
+  usecase "Edit Profile" as UC7
+  usecase "View Child Information" as UC8
+  usecase "Edit Child Information" as UC9
+
+  usecase "Record Baby Cry" as UC10
+  usecase "Analyze Baby Cry" as UC11
+  usecase "View Analysis Results" as UC12
+  usecase "Chat with AI Assistant" as UC13
+
+  usecase "Receive Sensor Data" as UC14
+  usecase "Check Abnormal Values" as UC15
+  usecase "Display Alert" as UC16
+  usecase "View Current Measurements" as UC17
+  usecase "View Monitoring Charts" as UC18
+}
+
+' ===== Parent =====
+Parent --> UC1
+Parent --> UC2
+Parent --> UC3
+Parent --> UC4
+Parent --> UC5
+Parent --> UC6
+Parent --> UC7
+Parent --> UC8
+Parent --> UC9
+Parent --> UC11
+Parent --> UC12
+Parent --> UC13
+Parent --> UC17
+Parent --> UC18
+
+' ===== ESP32 =====
+ESP32 --> UC14 : Wi-Fi
+
+' ===== Backend Server =====
+UC1 -- Backend
+UC2 -- Backend
+UC4 -- Backend
+UC5 -- Backend
+UC6 -- Backend
+UC7 -- Backend
+UC8 -- Backend
+UC9 -- Backend
+
+' ===== AI services and Firebase =====
+UC11 -- CryAI
+UC13 -- ChatAI
+UC16 -- FB
+
+' ===== include / extend =====
+UC11 ..> UC10 : <<include>>
+UC14 ..> UC15 : <<include>>
+UC16 ..> UC14 : <<extend>>\n[abnormal value detected]
+
+
+@enduml</code></pre>
+                </details>
+            </div>
+
+            <!-- 2. Class (2 صور) -->
+            <div class="uml-card">
+                <h3 class="uml-title">Class Diagram</h3>
+                <div class="image-stack">
+                    <img src="images/classdiagram.jpg" alt="Class 1" class="uml-img" onclick="openLightbox(this)">
+                    <img src="images/classdiag1.jpg" alt="Class 2" class="uml-img" onclick="openLightbox(this)">
+                </div>
+                <details class="code-reveal">
+                    <summary> Show Diagram Code</summary>
+                    <pre><code>
+
+@startuml
+' ==========================================
+' GENERAL SETTINGS
+' ==========================================
+
+title SAGHIRI - Class Diagram
+
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+skinparam shadowing false
+skinparam packageStyle rectangle
+
+hide empty members
+
+' ==========================================
+' 1. BOUNDARY CLASS
+' ==========================================
+
+package "Boundary Layer" {
+
+    class MobileAppUI <<boundary>> {
+        +register()
+        +login()
+        +logout()
+        +manageProfile()
+        +manageChildInformation()
+        +recordBabyCry()
+        +viewAnalysisResult()
+        +sendChatMessage()
+        +viewVitalSigns()
+        +viewHistory()
+        +viewCharts()
+        +viewAlerts()
+    }
+}
+
+' ==========================================
+' 2. CONTROL CLASSES
+' ==========================================
+
+package "Control Layer" {
+
+    class AccountController <<control>> {
+        +register()
+        +login()
+        +logout()
+        +changePassword()
+        +resetPassword()
+    }
+
+    class ProfileController <<control>> {
+        +viewProfile()
+        +editProfile()
+    }
+
+    class ChildController <<control>> {
+        +viewChildInformation()
+        +editChildInformation()
+    }
+
+    class CryAnalysisController <<control>> {
+        +recordCry()
+        +sendRecordingForAnalysis()
+        +receiveAnalysisResult()
+        +displayAnalysisResult()
+    }
+
+    class ChatbotController <<control>> {
+        +sendMessage()
+        +receiveResponse()
+    }
+
+    class HealthMonitoringController <<control>> {
+        +receiveSensorData()
+        +checkAbnormalValues()
+        +saveVitalSigns()
+        +viewMeasurements()
+        +viewHistory()
+        +viewCharts()
+        +generateAlerts()
+        +viewAlerts()
+    }
+
+    class VitalSignLocalStorage <<control>> {
+        +saveVitalSign(vitalSign)
+        +getVitalSigns()
+        +getVitalSignsByDate(date)
+    }
+}
+
+' ==========================================
+' 3. ENTITY CLASSES
+' ==========================================
+
+package "Entity Layer" {
+
+    class Parent <<entity>> {
+        -name: String
+        -email: String
+        -passwordHash: String
+    }
+
+    class Child <<entity>> {
+        -firstName: String
+        -lastName: String
+        -dateOfBirth: Date
+        -gender: Gender
+    }
+
+    class VitalSign <<entity>> {
+        -heartRate: Float
+        -oxygenSaturation: Float
+        -temperature: Float
+        -recordedAt: DateTime
+    }
+
+    class HealthAlert <<entity>> {
+        -message: String
+        -createdAt: DateTime
+    }
+
+    class CryRecording <<entity>> {
+        -audioFile: File
+        -recordedAt: DateTime
+    }
+
+    class CryAnalysisResult <<entity>> {
+        -result: String
+        -analyzedAt: DateTime
+    }
+
+    class ChatMessage <<entity>> {
+        -content: String
+        -sender: String
+        -timestamp: DateTime
+    }
+
+    enum Gender
+}
+
+' ==========================================
+' 4. EXTERNAL SYSTEMS
+' ==========================================
+
+package "External Systems" {
+
+    class ESP32 <<external>> {
+        +sendSensorData()
+    }
+
+    class AIService <<external>> {
+        +analyzeCry()
+    }
+}
+
+' ==========================================
+' 5. BOUNDARY - CONTROL RELATIONSHIPS
+' ==========================================
+
+MobileAppUI ..> AccountController : uses
+MobileAppUI ..> ProfileController : uses
+MobileAppUI ..> ChildController : uses
+MobileAppUI ..> CryAnalysisController : uses
+MobileAppUI ..> ChatbotController : uses
+MobileAppUI ..> HealthMonitoringController : uses
+
+' ==========================================
+' 6. CONTROL - ENTITY RELATIONSHIPS
+' ==========================================
+
+AccountController ..> Parent : manages
+ProfileController ..> Parent : manages
+ChildController ..> Child : manages
+
+CryAnalysisController ..> CryRecording : handles
+CryAnalysisController ..> CryAnalysisResult : handles
+
+ChatbotController ..> ChatMessage : handles
+
+HealthMonitoringController ..> VitalSign : handles
+HealthMonitoringController ..> HealthAlert : generates
+
+' ==========================================
+' 7. LOCAL HEALTH DATA STORAGE
+' ==========================================
+
+HealthMonitoringController ..> VitalSignLocalStorage : uses
+
+VitalSignLocalStorage ..> VitalSign : saves / retrieves
+
+' ==========================================
+' 8. EXTERNAL SYSTEM INTERACTIONS
+' ==========================================
+
+ESP32 ..> HealthMonitoringController : sends sensor data
+
+CryAnalysisController ..> AIService : sends audio recording
+
+AIService ..> CryAnalysisController : returns analysis result
+
+' ==========================================
+' 9. ENTITY ASSOCIATIONS
+' ==========================================
+
+Parent "1" -- "1" Child : has
+
+Child "1" -- "0..*" VitalSign : has readings
+
+Child "1" -- "0..*" CryRecording : records
+
+CryRecording "1" -- "0..1" CryAnalysisResult : produces
+
+VitalSign "1" -- "0..*" HealthAlert : may trigger
+
+' ==========================================
+' 10. NOTES
+' ==========================================
+
+note right of VitalSign
+  Each reading contains all three values:
+  - Heart Rate
+  - Oxygen Saturation
+  - Temperature
+end note
+
+note right of CryRecording
+  Temporary recording.
+  Sent for analysis without
+  permanent storage.
+end note
+
+note right of CryAnalysisResult
+  Displayed by the application.
+  Permanent storage is not confirmed.
+end note
+
+note right of ChatMessage
+  Temporary messages.
+  Chat history is not stored.
+end note
+
+note bottom of VitalSignLocalStorage
+  Local storage inside the mobile phone.
+  Used to retrieve historical readings
+  and generate History charts.
+end note
+@enduml</code></pre>
+                </details>
+            </div>
+
+            <!-- 3. Activity 1 -->
+            <div class="uml-card">
+                <h3 class="uml-title">Log in Activity Diagram</h3>
+                <img src="images/activity1.jpg" alt="Activity 1" class="uml-img" onclick="openLightbox(this)">
+                <details class="code-reveal">
+                    <summary> Show Diagram Code</summary>
+                    <pre><code>@startuml AD2_LogIn
+title AD2 - Log In
+skinparam shadowing false
+skinparam ActivityBackgroundColor #E8F5F3
+skinparam ActivityBorderColor #1A535C
+skinparam ArrowColor #1A535C
+skinparam swimlaneBorderColor #2BAE9C
+
+|Parent|
+start
+:Enter email and password;
+|SAGHIRI App|
+:Send login request;
+|Backend Server|
+if (Valid credentials?) then (yes)
+  :Confirm identity\n(session token - assumption);
+  |SAGHIRI App|
+  :Start authenticated session;
+  :Open main screen;
+else (no)
+  |Backend Server|
+  :Reject login;
+  |SAGHIRI App|
+  :Show error message;
+endif
+|Parent|
+stop
+@enduml</code></pre>
+                </details>
+            </div>
+
+            <!-- 4. Activity 2 -->
+            <div class="uml-card">
+                <h3 class="uml-title">Edit profile Activity Diagram</h3>
+                <img src="images/activity2.jpg" alt="Activity 2" class="uml-img" onclick="openLightbox(this)">
+                <details class="code-reveal">
+                    <summary> Show Diagram Code</summary>
+                    <pre><code>@startuml AD4_EditProfileChild
+title AD4 - Edit Profile or Child Information
+skinparam shadowing false
+skinparam ActivityBackgroundColor #E8F5F3
+skinparam ActivityBorderColor #1A535C
+skinparam ArrowColor #1A535C
+skinparam swimlaneBorderColor #2BAE9C
+
+|Parent|
+start
+if (What to edit?) then (Profile)
+  :Edit name / email;
+else (Child information)
+  :Edit first name, last name,\ndate of birth, gender;
+endif
+:Press Save;
+|SAGHIRI App|
+:Send update request;
+|Backend Server|
+if (Valid data?) then (yes)
+  :Update stored data;
+  |SAGHIRI App|
+  :Show updated data;
+else (no)
+  |Backend Server|
+  :Reject update;
+  |SAGHIRI App|
+  :Show error message;
+endif
+|Parent|
+stop
+@enduml</code></pre>
+                </details>
+            </div>
+
+            <!-- 5. Activity 3 -->
+            <div class="uml-card">
+                <h3 class="uml-title">Interact with AI Activity Diagram</h3>
+                <img src="images/activity3.jpg" alt="Activity 3" class="uml-img" onclick="openLightbox(this)">
+                <details class="code-reveal">
+                    <summary> Show Diagram Code</summary>
+                    <pre><code>@startuml AD6_Chatbot
+title AD6 - Interact with the AI Chatbot
+skinparam shadowing false
+skinparam ActivityBackgroundColor #E8F5F3
+skinparam ActivityBorderColor #1A535C
+skinparam ArrowColor #1A535C
+skinparam swimlaneBorderColor #2BAE9C
+
+|Parent|
+start
+:Type question and press Send;
+|SAGHIRI App|
+:Create the Parent's message;
+:Compute the child's age\nfrom date of birth;
+:Send question, child's name\nand age to the Chatbot Service;
+|Chatbot Service|
+if (Reply generated?) then (yes)
+  :Return general parenting advice;
+  |SAGHIRI App|
+  :Create the Assistant's message;
+  :Show reply;
+else (no)
+  |Chatbot Service|
+  :Return error;
+  |SAGHIRI App|
+  :Show error message;
+endif
+|Parent|
+stop
+@enduml</code></pre>
+                </details>
+            </div>
+
+            <!-- 6. Activity 4 -->
+            <div class="uml-card">
+                <h3 class="uml-title">Monitor measurements Activity Diagram</h3>
+                <img src="images/activity4.jpg" alt="Activity 4" class="uml-img" onclick="openLightbox(this)">
+                <details class="code-reveal">
+                    <summary> Show Diagram Code</summary>
+                    <pre><code>@startuml AD8_ViewMonitoring
+title AD8 - Monitor Measurements and Display Charts
+skinparam shadowing false
+skinparam ActivityBackgroundColor #E8F5F3
+skinparam ActivityBorderColor #1A535C
+skinparam ArrowColor #1A535C
+skinparam swimlaneBorderColor #2BAE9C
+
+|Parent|
+start
+:Open monitoring screen;
+if (What to view?) then (Current measurements)
+  |SAGHIRI App|
+  :Get the latest received values;
+  :Show temperature, heart rate, oxygen;
+else (Charts / History)
+  |Parent|
+  :Choose time range;
+  |SAGHIRI App|
+  :Load stored readings from local storage;
+  if (Readings available?) then (yes)
+    :Build chart data;
+    :Show charts;
+  else (no)
+    :Show "No data available";
+  endif
+endif
+|Parent|
+stop
+@enduml</code></pre>
+                </details>
+            </div>
+
+            <!-- 7. Login Sequence -->
+            <div class="uml-card">
+                <h3 class="uml-title">Login Sequence Diagram</h3>
+                <img src="images/login-sequence.jpg" alt="Login Sequence" class="uml-img" onclick="openLightbox(this)">
+                <details class="code-reveal">
+                    <summary> Show Diagram Code</summary>
+                    <pre><code>
+@startuml
+actor Parent
+boundary "MobileAppUI" as UI
+control "AccountController" as AC
+participant "AccountRepository" as AR
+database "PostgreSQL" as DB
+
+Parent -> UI: enterEmailAndPassword(email, password)
+activate UI
+
+Parent -> UI: clickLogin()
+UI -> AC: login(email, password)
+activate AC
+
+AC -> AR: findByEmail(email)
+activate AR
+
+AR -> DB: retrieveAccount(email)
+activate DB
+DB --> AR: accountData
+deactivate DB
+
+AR --> AC: accountData
+deactivate AR
+
+AC -> AC: verifyPassword(password, passwordHash)
+
+alt [credentials valid]
+    AC --> UI: authenticationSuccess()
+    UI --> Parent: displayHomeScreen()
+else [credentials invalid or account not found]
+    AC --> UI: authenticationFailure()
+    UI --> Parent: displayErrorMessage()
+end
+
+deactivate AC
+deactivate UI
+@enduml
+
+</code></pre>
+                </details>
+            </div>
+
+            <!-- 8. Sequence 2 -->
+            <div class="uml-card">
+                <h3 class="uml-title">Interact with AI Sequence Diagram</h3>
+                <img src="images/sequence2.jpg" alt="Sequence 2" class="uml-img" onclick="openLightbox(this)">
+                <details class="code-reveal">
+                    <summary> Show Diagram Code</summary>
+                    <pre><code>@startuml SD6_Chatbot
+title SD6 - Interact with the AI Chatbot
+skinparam shadowing false
+actor Parent
+boundary ChatInterface
+control ChatController
+entity Child
+participant ChatbotProxy
+actor "Chatbot Service" as ChatAI
+
+Parent -> ChatInterface : type question, press send
+activate ChatInterface
+ChatInterface -> ChatController : sendMessage(text)
+activate ChatController
+create entity ChatMessage
+ChatController -> ChatMessage : <<create>> (sender = Parent)
+ChatController -> Child : getAge()
+activate Child
+Child --> ChatController : age (computed by Flutter)
+deactivate Child
+ChatController -> ChatbotProxy : sendMessage(text, childName, childAge)
+activate ChatbotProxy
+ChatbotProxy -> ChatAI : question + name + age
+activate ChatAI
+alt reply received
+  ChatAI --> ChatbotProxy : general advice
+  ChatbotProxy --> ChatController : reply
+  ChatController -> ChatMessage : <<create>> (sender = Assistant)
+  ChatController --> ChatInterface : reply
+  ChatInterface --> Parent : show reply
+else service failure
+  ChatAI --> ChatbotProxy : error
+  deactivate ChatAI
+  ChatbotProxy --> ChatController : error
+  deactivate ChatbotProxy
+  ChatController --> ChatInterface : error
+  ChatInterface --> Parent : show error message
+end
+deactivate ChatController
+deactivate ChatInterface
+@enduml</code></pre>
+                </details>
+            </div>
+
+            <!-- 9. Sequence 3 -->
+            <div class="uml-card">
+                <h3 class="uml-title">Monitor measurements Sequence Diagram</h3>
+                <img src="images/sequence3.jpg" alt="Sequence 3" class="uml-img" onclick="openLightbox(this)">
+                <details class="code-reveal">
+                    <summary> Show Diagram Code</summary>
+                    <pre><code>@startuml SD8_ViewMonitoring
+title SD8 - Monitor Measurements and Display Charts
+skinparam shadowing false
+actor Parent
+boundary MonitoringInterface
+control MonitoringController
+participant LocalStorageProxy
+
+== View Current Measurements ==
+Parent -> MonitoringInterface : open monitoring screen
+activate MonitoringInterface
+MonitoringInterface -> MonitoringController : getCurrentValues()
+activate MonitoringController
+MonitoringController --> MonitoringInterface : latest temperature, heart rate, oxygen
+MonitoringInterface --> Parent : show current values
+deactivate MonitoringController
+
+== View Monitoring Charts ==
+Parent -> MonitoringInterface : choose History / time range
+MonitoringInterface -> MonitoringController : buildChartData(range)
+activate MonitoringController
+MonitoringController -> LocalStorageProxy : loadReadings(range)
+activate LocalStorageProxy
+LocalStorageProxy --> MonitoringController : stored readings
+deactivate LocalStorageProxy
+alt readings available
+  MonitoringController --> MonitoringInterface : chart data
+  MonitoringInterface --> Parent : show charts
+else no readings
+  MonitoringController --> MonitoringInterface : empty
+  MonitoringInterface --> Parent : "No data available"
+end
+deactivate MonitoringController
+deactivate MonitoringInterface
+@enduml</code></pre>
+                </details>
+            </div>
+
+            <!-- 10. Sequence 4 -->
+            <div class="uml-card">
+                <h3 class="uml-title">Edit profile Sequence Diagram</h3>
+                <img src="images/sequence4.jpg" alt="Sequence 4" class="uml-img" onclick="openLightbox(this)">
+                <details class="code-reveal">
+                    <summary> Show Diagram Code</summary>
+                    <pre><code>@startuml SD4_EditProfileChild
+title SD4 - Edit Profile and Child Information
+skinparam shadowing false
+actor Parent
+boundary ProfileInterface
+control ProfileController
+boundary ChildInterface
+control ChildController
+participant BackendProxy
+actor "Backend Server" as Backend
+
+== Edit Profile ==
+Parent -> ProfileInterface : edit name / email, save
+activate ProfileInterface
+ProfileInterface -> ProfileController : editProfile(name, email)
+activate ProfileController
+ProfileController -> BackendProxy : send(updateProfile)
+activate BackendProxy
+BackendProxy -> Backend : PUT profile
+activate Backend
+alt valid data
+  Backend --> BackendProxy : success
+  BackendProxy --> ProfileController : success
+  ProfileController --> ProfileInterface : updated
+  ProfileInterface --> Parent : show updated profile
+else invalid data
+  Backend --> BackendProxy : error
+  deactivate Backend
+  BackendProxy --> ProfileController : error
+  deactivate BackendProxy
+  ProfileController --> ProfileInterface : error
+  ProfileInterface --> Parent : show error message
+end
+deactivate ProfileController
+deactivate ProfileInterface
+
+== Edit Child Information ==
+Parent -> ChildInterface : edit first name, last name,\ndate of birth, gender, save
+activate ChildInterface
+ChildInterface -> ChildController : editChild(firstName, lastName, dateOfBirth, gender)
+activate ChildController
+ChildController -> BackendProxy : send(updateChild)
+activate BackendProxy
+BackendProxy -> Backend : PUT child
+activate Backend
+alt valid data
+  Backend --> BackendProxy : success
+  BackendProxy --> ChildController : success
+  ChildController --> ChildInterface : updated
+  ChildInterface --> Parent : show updated information
+else invalid data
+  Backend --> BackendProxy : error
+  deactivate Backend
+  BackendProxy --> ChildController : error
+  deactivate BackendProxy
+  ChildController --> ChildInterface : error
+  ChildInterface --> Parent : show error message
+end
+deactivate ChildController
+deactivate ChildInterface
+@enduml</code></pre>
+                </details>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- نافذة تكبير الصور (Lightbox Pro) -->
+    <div id="lightbox" class="lightbox">
+        <span class="close-btn" onclick="closeLightbox()">&times;</span>
+        <div class="lb-hint">🖱️ Scroll = Zoom | Drag = Move | Esc = Close</div>
+        <img class="lightbox-content" id="lightbox-img" src="" alt="Zoomed Diagram">
+        <div class="lb-toolbar" onclick="event.stopPropagation()">
+            <button onclick="zoomOut()" title="تصغير">−</button>
+            <span class="lb-zoom-label" id="zoom-label">100%</span>
+            <button onclick="zoomIn()" title="تكبير">+</button>
+            <button onclick="resetZoom()" title="إعادة">⟲</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>Designed and developed by HADJER BOULENOUAR © 2026</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
